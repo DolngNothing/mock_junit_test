@@ -3,6 +3,7 @@ package parking;
 import org.junit.Test;
 import org.mockito.Mockito;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -45,12 +46,10 @@ public class InOrderParkingStrategyTest {
         /* Exercise 2: Test park() method. Use Mockito.spy and Mockito.verify to test the situation for no available parking lot */
         Car car = mock(Car.class);
         when(car.getName()).thenReturn("james");
-        ParkingLot parkingLot = mock(ParkingLot.class);
-        List<ParkingLot> parkingLotList = Collections.singletonList(parkingLot);
-        when(parkingLot.isFull()).thenReturn(true);
+
         InOrderParkingStrategy inOrderParkingStrategy = spy(new InOrderParkingStrategy());
 
-        inOrderParkingStrategy.park(parkingLotList, car);
+        inOrderParkingStrategy.park(Arrays.asList(), car);
         verify(inOrderParkingStrategy).createNoSpaceReceipt(car);
     }
 
@@ -73,7 +72,15 @@ public class InOrderParkingStrategyTest {
     public void testPark_givenThereIsOneFullParkingLot_thenCreateReceipt() {
 
         /* Exercise 2: Test park() method. Use Mockito.spy and Mockito.verify to test the situation for one available parking lot but it is full */
+        Car car = mock(Car.class);
+        when(car.getName()).thenReturn("james");
+        ParkingLot parkingLot = mock(ParkingLot.class);
+        List<ParkingLot> parkingLotList = Collections.singletonList(parkingLot);
+        when(parkingLot.isFull()).thenReturn(true);
+        InOrderParkingStrategy inOrderParkingStrategy = spy(new InOrderParkingStrategy());
 
+        inOrderParkingStrategy.park(parkingLotList, car);
+        verify(inOrderParkingStrategy).createNoSpaceReceipt(car);
     }
 
     @Test
