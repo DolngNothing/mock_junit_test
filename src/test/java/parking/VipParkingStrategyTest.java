@@ -1,15 +1,22 @@
 package parking;
 
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.runners.MockitoJUnitRunner;
 
 import java.util.Arrays;
 import java.util.Collections;
 
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
-
+@RunWith(MockitoJUnitRunner.class)
 public class VipParkingStrategyTest {
-
+    @Mock
+    Car car;
+    @Mock
+    CarDao carDao;
 	@Test
     public void testPark_givenAVipCarAndAFullParkingLog_thenGiveAReceiptWithCarNameAndParkingLotName() {
 
@@ -31,7 +38,7 @@ public class VipParkingStrategyTest {
 
         /* Exercise 4, Write a test case on VipParkingStrategy.park()
          * With using Mockito spy, verify and doReturn */
-        Car car = mock(Car.class);
+        Car car =new Car("name");
 
         VipParkingStrategy vipParkingStrategy = spy(new VipParkingStrategy());
 
@@ -49,6 +56,15 @@ public class VipParkingStrategyTest {
          * You may refactor the code, or try to use
          * use @RunWith(MockitoJUnitRunner.class), @Mock (use Mockito, not PowerMock) and @InjectMocks
          */
+        when(car.getName()).thenReturn("AAAA");
+
+        VipParkingStrategy vipParkingStrategy = spy(new VipParkingStrategy());
+
+        ParkingLot parkingLot=spy(new ParkingLot("666",666));
+        Mockito.doReturn(true).when(parkingLot).isFull();
+        vipParkingStrategy.park(Collections.singletonList(parkingLot),car);
+
+        verify(vipParkingStrategy).createReceipt(parkingLot,car);
     }
 
     @Test
@@ -58,6 +74,16 @@ public class VipParkingStrategyTest {
          * You may refactor the code, or try to use
          * use @RunWith(MockitoJUnitRunner.class), @Mock (use Mockito, not PowerMock) and @InjectMocks
          */
+        when(car.getName()).thenReturn("ccccc");
+
+        VipParkingStrategy vipParkingStrategy = spy(new VipParkingStrategy());
+
+        ParkingLot parkingLot=spy(new ParkingLot("666",666));
+        Mockito.doReturn(true).when(parkingLot).isFull();
+        vipParkingStrategy.park(Collections.singletonList(parkingLot),car);
+        verify(vipParkingStrategy).isAllowOverPark(car);
+        assertFalse(vipParkingStrategy.isAllowOverPark(car));
+
     }
 
     @Test
