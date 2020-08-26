@@ -25,7 +25,7 @@ public class InOrderParkingStrategy implements ParkingStrategy {
 	}
 
 	@Override
-	public Integer calculateHourlyPrice() {
+	public Integer  calculateHourlyPrice() {
 		return ParkingLot.getBasicHourlyPrice();
 	}
 
