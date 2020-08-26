@@ -3,9 +3,15 @@ package parking;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.*;
+import static parking.ParkingStrategy.NO_PARKING_LOT;
 
 public class InOrderParkingStrategyTest {
 
@@ -32,7 +38,7 @@ public class InOrderParkingStrategyTest {
         Car car = mock(Car.class);
         when(car.getName()).thenReturn("james");
         Receipt receipt = new InOrderParkingStrategy().createNoSpaceReceipt(car);
-        assertEquals(car.getName(),receipt.getCarName());
+        assertEquals(NO_PARKING_LOT,receipt.getParkingLotName());
 
     }
 
@@ -40,7 +46,15 @@ public class InOrderParkingStrategyTest {
     public void testPark_givenNoAvailableParkingLot_thenCreateNoSpaceReceipt(){
 
 	    /* Exercise 2: Test park() method. Use Mockito.spy and Mockito.verify to test the situation for no available parking lot */
+        Car car = mock(Car.class);
+        when(car.getName()).thenReturn("james");
+        ParkingLot parkingLot=mock(ParkingLot.class);
+        List<ParkingLot> parkingLotList= Collections.singletonList(parkingLot);
+        when(parkingLot.isFull()).thenReturn(true);
+        InOrderParkingStrategy inOrderParkingStrategy = spy(new InOrderParkingStrategy());
 
+        inOrderParkingStrategy.park(parkingLotList,car);
+        verify(inOrderParkingStrategy).createNoSpaceReceipt(car);
     }
 
     @Test
