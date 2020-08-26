@@ -20,7 +20,7 @@ public class VipParkingStrategyPowerMockTest {
     public void testCalculateHourlyPrice_givenSunday_thenPriceIsDoubleOfSundayPrice(){
 
         /* Exercise 6: Write test case for VipParkingStrategy calculateHourlyPrice
-        * by using PowerMock to mock static method */  //ParkingLot
+        * by using PowerMock to mock static method */
         mockStatic(ParkingLot.class);
         VipParkingStrategy vipParkingStrategy =new VipParkingStrategy();
         ParkingLot parkingLot = new ParkingLot("parking-lot",30);
@@ -36,7 +36,13 @@ public class VipParkingStrategyPowerMockTest {
 
         /* Exercise 6: Write test case for VipParkingStrategy calculateHourlyPrice
          * by using PowerMock to mock static method */
+        mockStatic(ParkingLot.class);
+        VipParkingStrategy vipParkingStrategy =new VipParkingStrategy();
+        ParkingLot parkingLot = new ParkingLot("parking-lot",30);
+        PowerMockito.when(ParkingLot.getBasicHourlyPrice()).thenReturn(20);
+        Integer  result = vipParkingStrategy.calculateHourlyPrice();
 
+        Assert.assertEquals(new Integer(40),result);
 
     }
 }
