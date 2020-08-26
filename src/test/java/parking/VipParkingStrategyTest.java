@@ -31,7 +31,15 @@ public class VipParkingStrategyTest {
 
         /* Exercise 4, Write a test case on VipParkingStrategy.park()
          * With using Mockito spy, verify and doReturn */
+        Car car = mock(Car.class);
 
+        VipParkingStrategy vipParkingStrategy = spy(new VipParkingStrategy());
+
+        ParkingLot parkingLot=spy(new ParkingLot("666",666));
+        Mockito.doReturn(true).when(parkingLot).isFull();
+        vipParkingStrategy.park(Collections.singletonList(parkingLot),car);
+
+        verify(vipParkingStrategy).createNoSpaceReceipt(car);
     }
 
     @Test
