@@ -3,6 +3,7 @@ package parking;
 import org.junit.Assert;
 import org.junit.Test;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.*;
 
@@ -18,7 +19,8 @@ public class InOrderParkingStrategyTest {
         ParkingLot parkingLot = mock(ParkingLot.class);
         when(parkingLot.getName()).thenReturn("parking lot");
         Receipt receipt = new InOrderParkingStrategy().createReceipt(parkingLot,car);
-        assertNotNull(receipt);
+        assertEquals(car.getName(),receipt.getCarName());
+        assertEquals(parkingLot.getName(),receipt.getParkingLotName());
 
     }
 
@@ -27,6 +29,10 @@ public class InOrderParkingStrategyTest {
 
         /* Exercise 1, Write a test case on InOrderParkingStrategy.createNoSpaceReceipt()
          * With using Mockito to mock the input parameter */
+        Car car = mock(Car.class);
+        when(car.getName()).thenReturn("james");
+        Receipt receipt = new InOrderParkingStrategy().createNoSpaceReceipt(car);
+        assertEquals(car.getName(),receipt.getCarName());
 
     }
 
