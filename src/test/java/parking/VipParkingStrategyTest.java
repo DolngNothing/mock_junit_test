@@ -108,6 +108,15 @@ public class VipParkingStrategyTest {
          * You may refactor the code, or try to use
          * use @RunWith(MockitoJUnitRunner.class), @Mock (use Mockito, not PowerMock) and @InjectMocks
          */
+        when(car.getName()).thenReturn("ccc");
+
+        VipParkingStrategy vipParkingStrategy = spy(new VipParkingStrategy());
+
+        ParkingLot parkingLot=spy(new ParkingLot("666",666));
+        Mockito.doReturn(true).when(parkingLot).isFull();
+        vipParkingStrategy.park(Collections.singletonList(parkingLot),car);
+        verify(vipParkingStrategy).isAllowOverPark(car);
+        assertFalse(vipParkingStrategy.isAllowOverPark(car));
     }
 
     private Car createMockCar(String carName) {
